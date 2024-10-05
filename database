@@ -1,0 +1,88 @@
+-- Create tables
+CREATE TABLE Customers (
+    customer_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(100)
+);
+
+CREATE TABLE Orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id INT REFERENCES Customers(customer_id),
+    employee_id INT,
+    order_date DATE
+);
+
+CREATE TABLE OrderDetails (
+    order_id INT REFERENCES Orders(order_id),
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10, 2),
+    PRIMARY KEY (order_id, product_id)
+);
+
+CREATE TABLE Products (
+    product_id SERIAL PRIMARY KEY,
+    product_name VARCHAR(100),
+    category_id INT,
+    unit_price DECIMAL(10, 2)
+);
+
+CREATE TABLE Categories (
+    category_id SERIAL PRIMARY KEY,
+    category_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    employee_id SERIAL PRIMARY KEY,
+    employee_name VARCHAR(100)
+);
+
+CREATE TABLE Shippers (
+    shipper_id SERIAL PRIMARY KEY,
+    shipper_name VARCHAR(100)
+);
+
+-- Insert sample data
+INSERT INTO Customers (customer_name) VALUES
+('John Doe'),
+('Jane Smith'),
+('Michael Johnson'),
+('Emily Davis'),
+('Chris Wilson');
+
+INSERT INTO Employees (employee_name) VALUES
+('Alice Johnson'),
+('Bob Williams'),
+('Charlie Brown');
+
+INSERT INTO Categories (category_name) VALUES
+('Electronics'),
+('Accessories'),
+('Office Supplies');
+
+INSERT INTO Products (product_name, category_id, unit_price) VALUES
+('Laptop', 1, 50.00),
+('Monitor', 1, 100.00),
+('Phone', 2, 200.00),
+('Headphones', 2, 75.00),
+('Printer', 3, 150.00);
+
+INSERT INTO Orders (customer_id, employee_id, order_date) VALUES
+(1, 1, '2023-09-01'),
+(2, 2, '2023-09-02'),
+(3, 1, '2023-09-03'),
+(4, 3, '2023-09-04'),
+(5, 2, '2023-09-05');
+
+INSERT INTO OrderDetails (order_id, product_id, quantity, unit_price) VALUES
+(1, 1, 10, 50.00),
+(1, 2, 5, 100.00),
+(2, 3, 8, 200.00),
+(2, 1, 7, 50.00),
+(3, 4, 15, 75.00),
+(4, 2, 6, 100.00),
+(5, 5, 10, 150.00);
+
+INSERT INTO Shippers (shipper_name) VALUES
+('FedEx'),
+('UPS'),
+('DHL');
