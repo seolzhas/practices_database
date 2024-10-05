@@ -1,0 +1,14 @@
+SELECT 
+    cu.customer_name, 
+    SUM(od.quantity * od.unit_price) AS total_purchase_amount
+FROM 
+    Orders o
+JOIN 
+    OrderDetails od ON o.order_id = od.order_id
+JOIN 
+    Customers cu ON o.customer_id = cu.customer_id
+GROUP BY 
+    cu.customer_name
+ORDER BY 
+    total_purchase_amount DESC
+LIMIT 5;
